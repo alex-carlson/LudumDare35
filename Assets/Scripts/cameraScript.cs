@@ -18,6 +18,6 @@ public class cameraScript : MonoBehaviour {
         objectScale = Vector3.Magnitude(myPlayer.GetComponent<Collider>().bounds.size);
         Vector3 pVec = myPlayer.transform.position;
         transform.LookAt(new Vector3(pVec.x, pVec.y, pVec.z));
-        transform.position = new Vector3(pVec.x, pVec.y + 1, pVec.z - (objectScale * 2)) + offset;
+        transform.position = new Vector3(pVec.x, pVec.y, pVec.z) + offset;
     }
 }

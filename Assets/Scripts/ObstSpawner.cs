@@ -22,8 +22,9 @@ public class ObstSpawner : MonoBehaviour {
     {
         float speedup = LevelGenerator.roundTime / 300;
         GameObject thisGO = GameObject.Find("Obstacles").transform.GetChild(0).gameObject;
+        float r = Random.Range(-10, 10);
 
-        thisGO.transform.position = spawnpoint.position;
+        thisGO.transform.position = spawnpoint.position + new Vector3(r, 0, 0);
         thisGO.transform.SetAsLastSibling();
         Invoke("spawnThing", 3f - speedup);
     }

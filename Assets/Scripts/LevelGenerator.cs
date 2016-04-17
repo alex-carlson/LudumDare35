@@ -40,7 +40,7 @@ public class LevelGenerator : MonoBehaviour {
         GameObject thisObj = GameObject.Find("Level Geometry").transform.GetChild(0).gameObject;
         thisObj.transform.position = GameObject.Find("PlacePosition").transform.position;
         thisObj.transform.SetAsLastSibling();
-        float speedup = roundTime / 120;
+        float speedup = roundTime / 200;
         Invoke("setObjects", 0.6f - speedup);
     }
 
