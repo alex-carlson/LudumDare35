@@ -17,6 +17,7 @@ public class LevelGenerator : MonoBehaviour {
         Invoke("setObjects", 1.2f);
         score = GameObject.Find("Score").GetComponent<Text>();
         highScore = GameObject.Find("HighScore").GetComponent<Text>();
+        instPos = GameObject.Find("PlacePosition").transform;
         if (PlayerPrefs.HasKey("highscore"))
         {
             highScore.text = "Best: " + (int)(PlayerPrefs.GetFloat("highscore") * 100.0f) / 100.0f;
@@ -39,15 +40,22 @@ public class LevelGenerator : MonoBehaviour {
         GameObject thisObj = GameObject.Find("Level Geometry").transform.GetChild(0).gameObject;
         thisObj.transform.position = GameObject.Find("PlacePosition").transform.position;
         thisObj.transform.SetAsLastSibling();
-        float speedup = roundTime / 60;
+        float speedup = roundTime / 120;
         Invoke("setObjects", 0.6f - speedup);
     }
 
-    public void restart()
+    public void quitGame()
     {
-        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+        Application.Quit();
     }
 
+
+    public void restart()
+    {
+        SceneManager.LoadScene(1);
+    }
+
+    
     public void clearStats()
     {
         PlayerPrefs.DeleteKey("highscore");

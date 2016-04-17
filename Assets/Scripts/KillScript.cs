@@ -20,7 +20,6 @@ public class KillScript : MonoBehaviour {
         if(col.gameObject.tag == "Player")
         {
             PlayerPrefs.SetFloat("highscore", Time.timeSinceLevelLoad);
-            Debug.Log(PlayerPrefs.GetFloat("highscore"));
             SceneManager.LoadScene(SceneManager.GetActiveScene().name);
         }
     }
