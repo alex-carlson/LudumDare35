@@ -9,8 +9,9 @@ public class cameraScript : MonoBehaviour {
 
     void Start()
     {
-        myPlayer = GameObject.FindGameObjectWithTag("Player");
+        myPlayer = GameObject.Find("Player");
         objectScale = 0;
+        transform.position = transform.position + offset;
     }
 	
 	// Update is called once per frame
@@ -18,6 +19,5 @@ public class cameraScript : MonoBehaviour {
         objectScale = Vector3.Magnitude(myPlayer.GetComponent<Collider>().bounds.size);
         Vector3 pVec = myPlayer.transform.position;
         transform.LookAt(new Vector3(pVec.x, pVec.y, pVec.z));
-        transform.position = new Vector3(pVec.x, pVec.y, pVec.z) + offset;
     }
 }

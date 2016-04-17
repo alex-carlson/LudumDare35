@@ -2,11 +2,15 @@
 using System.Collections;
 using UnityEngine.SceneManagement;
 using UnityEngine.UI;
+using UnityStandardAssets.ImageEffects;
 
 public class KillScript : MonoBehaviour {
 
-	// Use this for initialization
-	void Start () {
+    float distort = 0;
+    public AudioClip deathSound;
+
+    // Use this for initialization
+    void Start () {
 	
 	}
 	
@@ -20,7 +24,8 @@ public class KillScript : MonoBehaviour {
         if(col.gameObject.tag == "Player")
         {
             PlayerPrefs.SetFloat("highscore", Time.timeSinceLevelLoad);
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            StartCoroutine("warpScreen");
+            Invoke("die", 1f);
         }
     }
 
@@ -30,5 +35,25 @@ public class KillScript : MonoBehaviour {
         {
             GetComponent<AudioSource>().Play();
         }
+    }
+
+    IEnumerator warpScreen()
+    {
+        GetComponent<AudioSource>().clip = deathSound;
+        GetComponent<AudioSource>().Play();
+        GameObject.Find("Main Camera").transform.parent = GameObject.Find("Level Geometry").transform;
+
+        while (distort < 1.5f)
+        {
+            distort += 0.1f;
+            //GameObject.Find("Main Camera").GetComponent<Fisheye>().strengthX = distort;
+            //GameObject.Find("Main Camera").GetComponent<Fisheye>().strengthY = distort;
+            yield return new WaitForEndOfFrame();
+        }
+    }
+
+    void die()
+    {
+        SceneManager.LoadScene(SceneManager.GetActiveScene().name);
     }
 }

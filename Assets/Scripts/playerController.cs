@@ -32,10 +32,16 @@ public class playerController : MonoBehaviour {
         rb.AddForce(h * turnamt, 0, 0);
 
 
-        if (shift && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) 
+        if (shift)
         {
-            anim.SetBool("Morph", true);
-        }
+            if (anim.GetCurrentAnimatorStateInfo(0).IsName("Idle"))
+            {
+                anim.SetBool("Morph", true);
+            } else
+            {
+                anim.SetBool("Morph", false);
+            }
+        } 
 	}
 
     void shapeshift()
