@@ -4,33 +4,37 @@ using Rewired;
 
 public class playerController : MonoBehaviour {
 
-    [Range(0, 1)] public float speed = 1;
-    [Range(1, 10)] public float turnamt = 1;
+    [Range(1, 1000)] public float speed = 1;
+    [Range(1, 100)] public float turnamt = 1;
     private Player player;
     public MeshFilter[] shapes;
     public Color[] colors;
     private MeshFilter myFilter;
     private int currShape = 0;
     private Animator anim;
+    private Rigidbody rb;
 
 	// Use this for initialization
 	void Start () {
         player = ReInput.players.GetPlayer(0); // get the Rewired Player
         myFilter = GetComponentInChildren<MeshFilter>();
         anim = GetComponent<Animator>();
+        rb = GetComponent<Rigidbody>();
     }
 	
 	// Update is called once per frame
 	void Update () {
         float h = player.GetAxis("Horizontal");
-        float spd = player.GetAxis("Accelerate");
         bool shift = player.GetButtonDown("Shapeshift");
-        transform.Rotate(new Vector3(0, h*turnamt, 0));
-        transform.Translate(0, 0, spd * speed);
+        //transform.Rotate(new Vector3(0, h*turnamt, 0));
+        //transform.Translate(h, 0, spd * speed);
 
-        if (shift)
+        rb.AddForce(h * turnamt, 0, 0);
+
+
+        if (shift && anim.GetCurrentAnimatorStateInfo(0).IsName("Idle")) 
         {
-            animate();
+            anim.SetBool("Morph", true);
         }
 	}
 
@@ -45,17 +49,14 @@ public class playerController : MonoBehaviour {
         }
         myFilter.mesh = shapes[currShape].mesh;
         GetComponent<MeshCollider>().sharedMesh = shapes[currShape].mesh;
-    }
-
-    void animate()
-    {
-
-        anim.SetBool("Morph", true);
+        GetComponent<AudioSource>().Play();
     }
 
     void idle()
     {
-        anim.SetBool("Morph", false);
         myFilter.GetComponent<MeshRenderer>().material.color = colors[currShape];
+        transform.rotation = Quaternion.Euler(Vector3.zero);
+        anim.SetBool("Morph", false);
     }
+
 }
